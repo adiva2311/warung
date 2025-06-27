@@ -7,7 +7,7 @@ type Order struct {
 	CustomerID uint `json:"customer_id"`
 	Customer   User `gorm:"foreignKey:CustomerID"`
 
-	Menu []Menu `json:"menu" gorm:"many2many:order_menu;"`
+	MenuItems []Menu `json:"menu_items" gorm:"many2many:order_menu_items;"`
 
 	Status     string `json:"status"` // "pending", "in_progress", "done"
 	Note       string `json:"note"`   // optional: e.g., "no sambal"

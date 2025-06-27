@@ -16,7 +16,7 @@ import (
 func InitDB() (*gorm.DB, error) {
 	err := godotenv.Load()
 	if err != nil {
-		errors.New("failed load env file")
+		return nil,errors.New("failed load env file")
 	}
 
 	db_username := os.Getenv("DB_USERNAME")
@@ -31,7 +31,7 @@ func InitDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	err = db.AutoMigrate(&models.User{}, &models.Menu{})
+	err = db.AutoMigrate(&models.User{}, &models.Menu{}, &models.Order{}, &models.Category{})
 	if err != nil {
 		log.Fatalln("Failed to Auto Migrate Table", err)
 	}
