@@ -4,18 +4,19 @@ import (
 	"log"
 	"net/http"
 	"warung/config"
+	"warung/controllers"
 
 	"github.com/labstack/echo/v4"
 )
 
 func ApiRoutes(e *echo.Echo) {
-	_, err := config.InitDB()
+	db, err := config.InitDB()
 	if err != nil {
 		log.Fatal("Failed Connect to Database", err)
 	}
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "This is MC Member API")
+		return c.String(http.StatusOK, "This is Warung API")
 	})
 
 	// HEALTH CHECK
@@ -24,4 +25,9 @@ func ApiRoutes(e *echo.Echo) {
 			"status": "API is running",
 		})
 	})
+
+	// USER
+	userController := controllers.NewUserController(db)
+	e.POST("/auth/register", userController.Register)
+	e.POST("/auth/login", userController.Login)
 }
